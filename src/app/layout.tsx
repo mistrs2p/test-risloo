@@ -1,8 +1,11 @@
+'use client'
 import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-
+import Header from './header'
+import { useState } from 'react'
 const inter = Inter({ subsets: ['latin'] })
+
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -14,9 +17,22 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  const [count, setCount] = useState(0) 
+  const handleCount = (countT: number) => {
+    setCount(count + 1)
+  }
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <Header productCount={count} changeCount={handleCount} />
+        <aside className='absolute top-0 right-0 bottom-0 bg-sky-500 px-4 py-6 flex flex-col items-center justify-between'>
+        <button type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+          <a href="/add-product">Add Product</a>
+        </button>
+
+        </aside>
+        <main className='absolute left-0 bottom-0 bg-sky-50 flex flex-col items-center justify-between p-24' style={{overflow: 'auto'}}>{children}</main>
+      </body>
     </html>
   )
 }
